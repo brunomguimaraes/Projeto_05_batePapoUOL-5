@@ -1,17 +1,19 @@
 let messages = [];
-let chatUser = {name: prompt("Type here your first name.")};
+let userName;
+
+alert("Welcome to the old school way to chat!")
 
 enterRoom();
 
 function enterRoom () {
-    alert("Welcome to the old school way to chat!")
+    userName = {name: prompt("Type here your first name.")};
     
-    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants', chatUser);
+    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants', userName);
 
-    promise.then(getMessages);
+    promise.then(getMessages, keepConnection);
     promise.catch(nameError);
 
-    keepConnection();
+    /*keepConnection();*/
 }
 
 function nameError () {
@@ -21,7 +23,7 @@ function nameError () {
 }
 
 function keepConnection () {
-    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status', chatUser);
+    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status', userName);
 
     promise.then(remainConnected);
 }
@@ -54,7 +56,7 @@ function showMessages () {
             ulMessages.innerHTML += `
         
             <li class="status-message message">
-                (${messages[i].time}) <strong>${messages[i].from}</strong> ${messages[i].text}        
+            <lighter>(${messages[i].time})</lighter> <strong>${messages[i].from}</strong> ${messages[i].text}        
             </li>`
         } 
         else if (messages[i].type === "message") {
@@ -62,19 +64,19 @@ function showMessages () {
             ulMessages.innerHTML += `
         
             <li class="normal-message message">
-                (${messages[i].time}) <strong>${messages[i].from}</strong> para <strong>${messages[i].to}</strong>: ${messages[i].text}            
+                <lighter>(${messages[i].time})</lighter> <strong>${messages[i].from}</strong> para <strong>${messages[i].to}</strong>: ${messages[i].text}            
             </li>`
         }   
-        else if (messages[i].type === "private_message") {
+        else if ((messages[i].type === "private_message")) {
 
             ulMessages.innerHTML += `
         
             <li class="private-message message">
-                (${messages[i].time}) <strong>${messages[i].from}</strong> reservadamente para <strong>${messages[i].to}</strong>: ${messages[i].text}            
+            <lighter>(${messages[i].time})</lighter> <strong>${messages[i].from}</strong> reservadamente para <strong>${messages[i].to}</strong>: ${messages[i].text}            
             </li>`
         }   
         else {
-            continue;
+            ulMessages.innerHTML = "";
         }
     }
 

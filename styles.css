@@ -2,6 +2,15 @@
     box-sizing: border-box;
 }
 
+strong {
+    font-weight: bold;
+}
+
+lighter {
+    font-weight: lighter;
+    color: #AAAAAA;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     position: relative;
