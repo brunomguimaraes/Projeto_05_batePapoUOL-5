@@ -10,10 +10,13 @@ function enterRoom () {
     
     const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants', userName);
 
-    promise.then(getMessages, keepConnection);
-    promise.catch(nameError);
+    promise.then(getMessages);
 
-    /*keepConnection();*/
+    promise.then(remainConnected); 
+        
+    promise.then(updateMessages());
+
+    promise.catch(nameError);
 }
 
 function nameError () {
@@ -22,28 +25,30 @@ function nameError () {
     enterRoom();
 }
 
+function updateMessages () {
+    setInterval(getMessages, 3000);
+}
+
 function keepConnection () {
     const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status', userName);
-
-    promise.then(remainConnected);
 }
 
 function remainConnected () {
-    //setInterval(keepConnection, 5000)
+    setInterval(keepConnection, 5000)
 }
 
 function getMessages() {
     const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
 
-    promise.then(loadMessages);
-    promise.catch(error);
+    promise.then(loadMessages);   
 }
 
 function loadMessages (response) {
     messages = response.data;
 
-    showMessages();    
+    showMessages();
 }
+
 
 function showMessages () {
     const ulMessages = document.querySelector("ul");
@@ -84,20 +89,21 @@ function showMessages () {
     const showLastMessage = document.querySelector("ul");
     showLastMessage.scrollIntoView({block: 'end', behavior: 'smooth', inline: 'nearest'}); 
     /*AUTO SCROLL*/
-
-    updateMessages();
-}
-
-function updateMessages () {
-    //setInterval(showMessages, 3000);
 }
 
 function sendMessage () {
-    const message = document.querySelector('input').value;
-}
+    const text = document.querySelector('input').value;
 
-function error () {
+    const message = {
+        from: userName,
+        to: 'Todos',
+        text,
+        type: 'message'
+    };
 
+    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages', message);
+
+    promise.then(getMessages);
 }
 
 
