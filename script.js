@@ -96,7 +96,8 @@ function showMessages () {
 }
 
 function sendMessage () {
-    const text = document.querySelector('input').value;
+    const input = document.querySelector('input');
+    const text = input.value;
 
     const message = {
         from: userName.name,
@@ -105,10 +106,12 @@ function sendMessage () {
         type: 'message'
     };
 
-    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages52', message);
+    input.value = "";
+
+    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages', message);
 
     promise.then(getMessages);
-    promise.catch(reloadPage);    
+    promise.catch(reloadPage);
 }
 
 
