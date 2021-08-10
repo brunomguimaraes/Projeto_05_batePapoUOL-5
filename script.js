@@ -95,7 +95,7 @@ function sendMessage () {
     const text = document.querySelector('input').value;
 
     const message = {
-        from: userName,
+        from: userName.name,
         to: 'Todos',
         text,
         type: 'message'
@@ -104,6 +104,7 @@ function sendMessage () {
     const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages', message);
 
     promise.then(getMessages);
+    
 }
 
 
