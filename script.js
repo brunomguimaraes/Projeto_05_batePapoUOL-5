@@ -22,7 +22,11 @@ function enterRoom () {
 function nameError () {
     alert("This name is already being used in this room, please type another one.")
 
-    enterRoom();
+    reloadPage();
+}
+
+function reloadPage () {
+    window.location.reload();
 }
 
 function updateMessages () {
@@ -101,10 +105,10 @@ function sendMessage () {
         type: 'message'
     };
 
-    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages', message);
+    const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages52', message);
 
     promise.then(getMessages);
-    
+    promise.catch(reloadPage);    
 }
 
 
